@@ -1,5 +1,16 @@
 const db = require('../db/index.js')
 
+var time = () => {
+  let t = new Date()
+  let Y = t.getFullYear()
+  let M = t.getMonth()
+  let D = t.getDate()
+  let h = t.getHours()
+  let m = t.getMinutes()
+  let s = t.getSeconds()
+  return `${Y}-${M + 1}-${D} ${h}:${m}:${s}`
+}
+
 //判断有无管理员权限,以/my/admin开头的都需要经过函数验证，这里应该挂载到全局，节省时间就用函数判断
 var admin = (management, res) => {
   if (management == 0) {
@@ -85,14 +96,15 @@ exports.AdminUpImage = (req, res) => {
   const info = req.body
   db.query('select * from ev_image where username = ?&&title = ?', [info.username, info.title], (err, results) => {
     if (err) return res.send({ status: 1, message: err.message })
+    let date = time()
     if (results.length === 0) {
       // 没有关于用户文章的图片就插入新的数据，有则更新数据
-      db.query('insert into ev_image set username = ?,title = ?,articleimage = ?', [info.username, info.title, info.articleimage], (err, results) => {
+      db.query('insert into ev_image set username = ?,title = ?,articleimage = ?,date = ?', [info.username, info.title, info.articleimage, date], (err, results) => {
         if (err) return res.send({ status: 1, message: err.message })
         res.send({ status: 0, message: '上传成功' })
       })
     } else if (results.length === 1) {
-      db.query('update ev_image set articleimage = ? where username = ?&&title = ?', [info.articleimage, info.username, info.title], (err, results) => {
+      db.query('update ev_image set articleimage = ?,date = ? where username = ?&&title = ?', [info.articleimage, date, info.username, info.title], (err, results) => {
         if (err) return res.send({ status: 1, message: err.message })
         res.send({ status: 0, message: '更新成功' })
       })
