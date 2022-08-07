@@ -44,7 +44,7 @@ exports.LogIn = (req,res) => {
       }
       res.send({
         status: 0,
-        message: '不是管理员！',
+        message: '登入成功',
         token: 'Bearer ' + tokenStr,
       })
     })

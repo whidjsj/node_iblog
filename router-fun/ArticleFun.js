@@ -24,17 +24,15 @@ exports.ChangeArticle = (req, res) => {
   db.query('select username from ev_articles where username = ?', [req.user.username], (err, results) => {
     if (err) return res.send({ status: 1, message: err.message })
     if (results.length < 1 && results.length > -1) {
-      // 判断用户有没有发过文章，没有就直接添加
+      // 判断有没有发过文章，没有就直接添加
       addArticle(db, userIfon.title, userIfon.content, date, req, res)
-
     } else {
-      // 用户发过文章判断有没有相同标题
+      // 发过文章判断有没有相同标题
       db.query('select title from ev_articles where title = ?', [userIfon.title], (err, results) => {
         if (err) return res.send({ status: 1, message: err.message })
         if (results.length < 1 && results.length > -1) {
           // 没有相同标题同样添加
           addArticle(db, userIfon.title, userIfon.content, date, req, res)
-
         } else {
           // 有相同标题就更新文章
           db.query('update ev_articles set title = ?,content = ? where username = ?', [userIfon.title, userIfon.content, req.user.username], (err, results) => {
@@ -62,13 +60,13 @@ exports.SelectArticle = (req, res) => {
 
 
 //删除文章
-exports.DelArticle = (req, res) => {
-  const userIfon = req.body
-  db.query('delete from ev_articles where username = ?&&title = ?', [req.user.username, userIfon.title], (err, results) => {
-    if (err) return res.send({ status: 1, message: err.message })
-    res.send({ status: 0, message: '删除成功' })
-  })
-}
+// exports.DelArticle = (req, res) => {
+//   const userIfon = req.body
+//   db.query('delete from ev_articles where username = ?&&title = ?', [req.user.username, userIfon.title], (err, results) => {
+//     if (err) return res.send({ status: 1, message: err.message })
+//     res.send({ status: 0, message: '删除成功' })
+//   })
+// }
 
 //查询文章收藏
 exports.CollectArticle = (req,res) => {

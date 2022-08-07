@@ -30,7 +30,8 @@ exports.UserChange = (req,res) => {
   })
 }
 
-//删除用户(从token拿取用户名，用户传密码)
+
+//删除用户(从token拿取用户名，用户传密码)     （有问题：没有做删除用户收藏）
 exports.UserDel = (req,res) => {
   const userInfo = req.body
   db.query('select password from ev_users where username = ?',[req.user.username],(err,resulst) => {

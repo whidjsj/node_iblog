@@ -5,7 +5,7 @@ const AdminFun = require('../router-fun/AdminFun')
 //查询所有用户信息（管理员可以对所有用户更改）
 router.post('/admin',AdminFun.Admin)
 
-// 更改用户信息
+// 删除用户信息
 router.post('/admin/user/del',AdminFun.AdminUserDel)
 
 // 查询所有文章

@@ -5,7 +5,7 @@ const router = express.Router()
 const Article = require('../router-fun/ArticleFun.js')
 
 // 删除文章
-router.post('/article/del',Article.DelArticle)
+// router.post('/article/del',Article.DelArticle)
 
 //查询文章
 router.post('/article/select',Article.SelectArticle)
